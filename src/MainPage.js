@@ -2,6 +2,7 @@ import React from "react"
 import BookShelf from "./BookCase"
 import './App.css'
 import * as BooksAPI from './BooksAPI'
+import { Link } from 'react-router-dom'
 
 class MainPage extends React.Component {
 
@@ -59,8 +60,11 @@ class MainPage extends React.Component {
                     </div>
                 </div>
                 <div className="open-search">
-                    <button>Add a book</button>
+                    <Link to="/search">
+                        <button>Add a book</button>
+                    </Link>
                 </div>
+
             </div>
         )
     }
