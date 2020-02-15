@@ -13,24 +13,36 @@ class MainPage extends React.Component {
       }
     
       componentDidMount() {
-        this.getAllBooks();
-      }
-    
-      getAllBooks = () => {
         BooksAPI.getAll().then(books => {
-            const currentlyreading = books
-                .filter(book => book.shelf === "currentlyReading");
-            const read = books
-                .filter(book => book.shelf === "read");
-            const wantToRead = books
-                .filter(book => book.shelf === "wantToRead");
-            this.setState(() => ({
-                books: books,
-                currentlyreading: currentlyreading,
-                read: read,
-                wantToRead: wantToRead
-            }));
+            this.updateBookState(books)
         });
+      }
+
+      updateBookState = (books) => {
+        const currentlyreading = books
+            .filter(book => book.shelf === "currentlyReading");
+        const read = books
+            .filter(book => book.shelf === "read");
+        const wantToRead = books
+            .filter(book => book.shelf === "wantToRead");
+        this.setState(() => ({
+            books: books,
+            currentlyreading: currentlyreading,
+            read: read,
+            wantToRead: wantToRead
+        }));
+      }
+
+      switchBookOnShelves = (shelf, book) => {
+        const allbook = this.state.books;
+        const newBooks = allbook.map(filteredbook => {
+            if (filteredbook.id === book.id) {
+                filteredbook.shelf = shelf
+            }
+            return filteredbook;
+        })
+        this.updateBookState(newBooks);
+        BooksAPI.update(book, shelf);
       };
 
     render() {
@@ -41,9 +53,9 @@ class MainPage extends React.Component {
                 </div>
                 <div className="list-books-content">
                     <div>
-                        <BookShelf name="Currently Reading" books={this.state.currentlyreading}/>
-                        <BookShelf name="Want to Read" books={this.state.wantToRead}/>
-                        <BookShelf name="Read" books={this.state.read}/>
+                        <BookShelf name="Currently Reading" books={this.state.currentlyreading} onSwitchBookOnShelves={this.switchBookOnShelves}/>
+                        <BookShelf name="Want to Read" books={this.state.wantToRead} onSwitchBookOnShelves={this.switchBookOnShelves}/>
+                        <BookShelf name="Read" books={this.state.read} onSwitchBookOnShelves={this.switchBookOnShelves}/>
                     </div>
                 </div>
                 <div className="open-search">

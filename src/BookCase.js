@@ -3,6 +3,11 @@ import Book from "./Book"
 import './App.css'
 
 class BookShelf extends React.Component {
+
+    switchShelves = (shelf, book) => {
+        this.props.onSwitchBookOnShelves(shelf, book)
+    };
+
     render() {
         return (
             <div className="bookshelf">
@@ -11,7 +16,7 @@ class BookShelf extends React.Component {
               <ol className="books-grid">
                   {this.props.books.map(book => (
                     <li key={book.id}>
-                        <Book book={book}/>
+                        <Book book={book} onSwitchBookOnShelves={this.switchShelves}/>
                     </li>
                   ))}
               </ol>
