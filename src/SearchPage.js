@@ -41,9 +41,18 @@ class SearchPage extends React.Component {
         })
     };
 
+    getShelfState = (book) => {
+        let shelf = "none"
+        const bookfound = this.props.books.find(element => element.id === book.id)
+        if (bookfound){
+            shelf = bookfound.shelf
+        }
+        return shelf
+    }
+
     render() {
 
-        const showSearchBooks =
+        let showSearchBooks =
         this.state.query === "" ? [] : this.state.searchedBooks;
 
         return (
@@ -66,7 +75,7 @@ class SearchPage extends React.Component {
                         {showSearchBooks.map(book => 
                             (book.hasOwnProperty("imageLinks") === true && book.hasOwnProperty("authors")) && (
                             <li key={book.id}>
-                                <Book book={book} onSwitchBookOnShelves={this.switchShelves}/>
+                                <Book book={book} onSwitchBookOnShelves={this.switchShelves} shelf={this.getShelfState(book)}/>
                             </li>
                         ))}
                     </ol>
