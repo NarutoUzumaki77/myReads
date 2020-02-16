@@ -72,12 +72,12 @@ class SearchPage extends React.Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        {showSearchBooks.map(book => 
+                        {showSearchBooks.length > 0 && (showSearchBooks.map(book => 
                             (book.hasOwnProperty("imageLinks") === true && book.hasOwnProperty("authors")) && (
                             <li key={book.id}>
                                 <Book book={book} onSwitchBookOnShelves={this.switchShelves} shelf={this.getShelfState(book)}/>
                             </li>
-                        ))}
+                        )))}
                     </ol>
                 </div>
             </div>
